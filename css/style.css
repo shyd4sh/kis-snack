@@ -108,17 +108,15 @@ img{display:block;height:auto;max-width:none}
   --H:904;
   background:#3a3836 url(../assets/stone-light.webp) center / cover no-repeat;
 }
-/* батончики, яблоки, колосья — затемнены как в макете (уже в картинке).
-   Масштаб по ширине, а по вертикали привязка к меню: яблоко стоит на уровне «О НАС», как в макете */
-.page--home::before{
-  content:""; position:absolute; z-index:0; pointer-events:none;
-  width:calc(1441.6 * var(--pm));
-  height:calc(961.2 * var(--pm));
-  left:calc(50% - 720.8 * var(--pm));
-  top:calc(81 * var(--hy) - 108.2 * var(--pm));
-  background:url(../assets/snacks.webp) center / 100% 100% no-repeat;
-}
+/* батончики, яблоки, колосья — отдельные картинки (затемнены как в макете).
+   Каждая стоит на своём месте из макета: по горизонтали расходятся по ширине экрана,
+   по вертикали — по высоте, размер — как у логотипа. Так все снеки видны целиком на любом экране,
+   а те, что в макете обрезаны краем, прижаты к краю экрана. */
+.page--home .deco{ position:absolute; z-index:0; pointer-events:none; }
+.page--home::before{ content:none; }
 .page--home .nav{ top:calc(86 * var(--hy)); }
+/* мягкая тень под пунктами меню на главной — читаются поверх колосьев */
+.page--home .nav a{ text-shadow:0 0 calc(6 * var(--hs)) rgba(0,0,0,.85), 0 0 calc(2 * var(--hs)) rgba(0,0,0,.9); }
 .page--home .nav a:nth-child(1){left:calc(226 * var(--vx))}
 .page--home .nav a:nth-child(2){left:calc(632 * var(--vx))}
 .page--home .nav a:nth-child(3){left:calc(1028 * var(--vx))}
@@ -220,7 +218,8 @@ img{display:block;height:auto;max-width:none}
   .copy br,.tagline br,.grant br{display:none}
   .copy{font-size:15px !important;line-height:23px !important;margin:16px 0}
   .copy p + p{margin-top:16px !important}
-  .page--home::before{width:100%;height:100%;left:0;top:0;background-size:auto 55vh;background-position:center 60%}
+  .page--home .deco{display:none}
+  .page--home::before{content:"";position:absolute;z-index:0;inset:0;background:url(../assets/snacks.webp) center 60% / auto 55vh no-repeat}
   .page--home .nav{margin-bottom:0}
   .page--home .brand-cat{width:90px;margin-top:40px}
   .page--home .brand-name{width:200px;margin-top:12px}
