@@ -1,0 +1,235 @@
+/* ===== Шрифты (как в макете Figma) ===== */
+/* FoglihtenNo06 — заголовки (SIL OFL) */
+@font-face{font-family:"FoglihtenNo06";src:local("FoglihtenNo06"),url(../fonts/foglihtenno06.woff2) format("woff2");font-weight:100 900;font-display:block} /* одно начертание: диапазон весов, чтобы браузер не рисовал «жирный» для 500 */
+/* Source Serif Pro — основной текст */
+@font-face{font-family:"Source Serif Pro";src:url(../fonts/sourceserifpro-cyr.woff2) format("woff2");unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap}
+@font-face{font-family:"Source Serif Pro";src:url(../fonts/sourceserifpro-lat.woff2) format("woff2");unicode-range:U+0000-00FF,U+2000-206F;font-display:swap}
+/* Equilibrist — меню.
+   Установленный в системе шрифт «Equilibrist» используется напрямую (font-family ниже).
+   Для посетителей без установленного шрифта — файл в fonts/: equilibrist-light.otf (.ttf или .woff2). */
+@font-face{font-family:"Equilibrist Web";src:url(../fonts/equilibrist-light.woff2) format("woff2"),url(../fonts/equilibrist-light.otf) format("opentype"),url(../fonts/equilibrist-light.ttf) format("truetype");font-weight:300;font-display:block}
+/* Noto Sans Display Light — текст про грант */
+@font-face{font-family:"Noto Sans Display";src:url(../fonts/notosansdisplay-300-cyr.woff2) format("woff2");font-weight:300;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;font-display:swap}
+@font-face{font-family:"Noto Sans Display";src:url(../fonts/notosansdisplay-300-lat.woff2) format("woff2");font-weight:300;unicode-range:U+0000-00FF,U+2000-206F;font-display:swap}
+
+/*
+  Система единиц — как на сайте «Лисичкин хлеб».
+  Макеты приведены к ширине 1440px. Каждая страница ровно в один экран:
+    --vx  — 1px макета по горизонтали, --py — по вертикали,
+    --ps  — меньшее из двух: размеры шрифтов и картинок (ничего не вылезает за экран),
+    --pm  — большее из двух: для фоновых фото, которые должны закрывать экран целиком.
+  Координата «от центра»: left = 50% + (X_макета − 720) × --ps.
+*/
+:root{
+  --vx: calc(100vw / 1440);
+  --hy: calc(100vh / 898);
+  --hs: min(var(--vx), var(--hy));
+  --fig-h: calc(var(--hs) * 1.93548);   /* 1px Figma (кадр 744px) */
+  --bg:#050505;
+  --text:#f4efec;
+  --muted:#d2cbc7;
+}
+@supports (height:100dvh){ :root{ --hy: calc(100dvh / 898); } }
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);color:var(--text)}
+body{font-family:"Source Serif Pro",Georgia,serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;height:auto;max-width:none}
+
+.page{
+  --py: calc(100vh / var(--H));
+  --ps: min(var(--vx), var(--py));
+  --pm: max(var(--vx), var(--py));
+  --fig: calc(var(--ps) * 1.93548);
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  background-color:var(--bg);
+}
+@supports (height:100dvh){ .page{ height:100dvh; --py: calc(100dvh / var(--H)); } }
+.page > *{z-index:1}
+.abs{position:absolute}
+.cx{transform:translateX(-50%);text-align:center}
+
+/* ===== Шапка ===== */
+.logo{
+  position:absolute; z-index:5;
+  left:calc(70 * var(--vx));
+  top:calc(50 * var(--hy));
+  width:calc(174 * var(--hs));
+}
+.logo img{width:100%}
+
+.nav{
+  position:absolute; z-index:5;
+  left:0; right:0;
+  top:calc(74 * var(--hy));
+  height:calc(16 * var(--hs));
+  font-family:"Equilibrist Web","Equilibrist Light","Equilibrist","FoglihtenNo06",Georgia,serif;
+  font-weight:300;
+  font-size:calc(9 * var(--fig-h));
+  line-height:1;
+  letter-spacing:0;
+  text-transform:uppercase;
+}
+.nav a{position:absolute;top:0;white-space:nowrap}
+.nav a:nth-child(1){left:calc(318 * var(--vx))}
+.nav a:nth-child(2){left:calc(657 * var(--vx))}
+.nav a:nth-child(3){left:calc(1060 * var(--vx))}
+/* подчёркивание при наведении — прорисовывается слева направо */
+.nav a::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:calc(-5 * var(--hs));
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:right center;
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.nav a:hover::after,
+.nav a:focus-visible::after{transform:scaleX(1);transform-origin:left center}
+
+/* ===== Общие стили текста ===== */
+.h-display{
+  font-family:"FoglihtenNo06",Georgia,serif;
+  font-weight:500;
+  line-height:1;
+  white-space:nowrap;
+}
+.copy{color:var(--muted)}
+.copy p{white-space:nowrap}
+
+/* ===== 0. Главная ===== */
+.page--home{
+  --H:904;
+  background:#3a3836 url(../assets/stone-light.webp) center / cover no-repeat;
+}
+/* батончики, яблоки, колосья — затемнены как в макете (уже в картинке).
+   Масштаб по ширине, а по вертикали привязка к меню: яблоко стоит на уровне «О НАС», как в макете */
+.page--home::before{
+  content:""; position:absolute; z-index:0; pointer-events:none;
+  width:calc(1441.6 * var(--pm));
+  height:calc(961.2 * var(--pm));
+  left:calc(50% - 720.8 * var(--pm));
+  top:calc(81 * var(--hy) - 108.2 * var(--pm));
+  background:url(../assets/snacks.webp) center / 100% 100% no-repeat;
+}
+.page--home .nav{ top:calc(86 * var(--hy)); }
+.page--home .nav a:nth-child(1){left:calc(226 * var(--vx))}
+.page--home .nav a:nth-child(2){left:calc(632 * var(--vx))}
+.page--home .nav a:nth-child(3){left:calc(1028 * var(--vx))}
+.page--home .brand-cat { left:calc(50% + (524 - 720) * var(--ps)); top:calc(270 * var(--py)); width:calc(184.7 * var(--ps)); }
+.page--home .brand-name{ left:calc(50% + (716 - 720) * var(--ps)); top:calc(303 * var(--py)); width:calc(386 * var(--ps)); }
+.page--home h1{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+.page--home .tagline{
+  left:calc(50% + (719 - 720) * var(--ps));
+  top:calc(505 * var(--py));
+  font-size:calc(9 * var(--fig));
+  line-height:calc(21.4 * var(--ps));
+  color:var(--muted);
+  white-space:nowrap;
+}
+.page--home .grant{
+  left:calc(50% + (718.5 - 720) * var(--ps));
+  top:calc(755 * var(--py));
+  font-family:"Noto Sans Display",Arial,sans-serif;
+  font-weight:300;
+  font-size:calc(8.5 * var(--fig));
+  line-height:calc(21.4 * var(--ps));
+  letter-spacing:0;
+  text-transform:uppercase;
+  color:#f4efec;
+  white-space:nowrap;
+  text-shadow:0 0 6px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.9);
+}
+
+/* ===== 1. О нас ===== */
+.page--about{ --H:910; background:#0d0e0e; }
+/* фото батончиков (затемнено как в макете, белые края обрезаны) — целиком в кадре, как в макете:
+   масштаб как у текста, поэтому низ батончиков всегда виден; поля вокруг — цвет доски */
+.page--about::before{
+  content:"";
+  position:absolute; z-index:0; pointer-events:none;
+  width:calc(1660.7 * var(--ps));
+  height:calc(1150.6 * var(--ps));
+  left:calc(50% + (-145.5 - 720) * var(--ps));
+  top:calc(50 * var(--hy) + 50.7 * var(--hs) - 216 * var(--ps));  /* верх батончиков — на уровне середины логотипа */
+  background:url(../assets/about-bg.webp) center / 100% 100% no-repeat;
+}
+.page--about .title{
+  left:calc(50% + (560 - 720) * var(--ps));
+  top:calc(201 * var(--py));
+  font-size:calc(40.95 * var(--fig));
+}
+.page--about .copy{
+  left:calc(50% + (575 - 720) * var(--ps));
+  top:calc(310 * var(--py));
+  font-size:calc(10 * var(--fig));
+  line-height:calc(25.4 * var(--ps));
+  color:var(--text);
+}
+.page--about .copy p + p{margin-top:calc(25.4 * var(--ps))}
+
+/* ===== Страницы с каменным фоном ===== */
+.page--stone{ background:#141414 url(../assets/stone.webp) center / cover no-repeat; }
+
+/* ===== 2. Наша продукция ===== */
+.page--products{ --H:1125; }  /* низ макета (1125–1212) пустой — обрезан, чтобы на 16:9 всё было крупнее */
+.page--products .title{ left:50%; top:calc(189 * var(--py)); font-size:calc(36 * var(--fig)); transform:translateX(-50%); }
+.page--products .copy{ font-size:calc(10 * var(--fig)); line-height:calc(25.3 * var(--ps)); }
+.page--products .copy p + p{margin-top:calc(25.3 * var(--ps))}
+.page--products .copy-1{ left:calc(50% + (462 - 720) * var(--ps)); top:calc(320 * var(--py)); }
+.page--products .copy-2{ left:calc(50% + (1002.5 - 720) * var(--ps)); top:calc(822 * var(--py)); }
+/* тарелка обрезана по правому краю — прижата к краю экрана */
+/* тарелка — круглым кадром (вид сверху) рядом с текстом, с мягкой тенью */
+.page--products .img-plate{
+  left:calc(50% + (878 - 720) * var(--ps));
+  top:calc(268 * var(--py));
+  width:calc(424 * var(--ps));
+  border-radius:50%;
+  box-shadow:0 calc(22 * var(--ps)) calc(50 * var(--ps)) rgba(0,0,0,.65), 0 0 0 calc(3 * var(--ps)) rgba(255,255,255,.06);
+}
+.page--products .img-stack{ left:calc(50% + (207.8 - 720) * var(--ps)); top:calc(711.4 * var(--py)); width:calc(330.4 * var(--ps)); }
+
+/* ===== 3. Контакты ===== */
+.page--contacts{ --H:910; }
+.page--contacts .title{ left:50%; top:calc(197 * var(--py)); font-size:calc(36 * var(--fig)); transform:translateX(-50%); }
+.page--contacts .subtitle{ left:50%; top:calc(270 * var(--py)); font-size:calc(10 * var(--fig)); line-height:1.4; color:var(--muted); white-space:nowrap; }
+.page--contacts .person{ left:50%; top:calc(358 * var(--py)); font-size:calc(13 * var(--fig)); line-height:calc(31.5 * var(--ps)); color:var(--muted); white-space:nowrap; }
+.page--contacts .person a:hover{color:var(--text)}
+/* батончики у левого края (повёрнуты), тарелка у правого — обе уходят за край экрана */
+.page--contacts .img-stack{ left:calc(-188.85 * var(--ps)); top:calc(713.2 * var(--py) - 277.35 * var(--ps)); width:calc(484.9 * var(--ps)); transform:rotate(24.19deg); }
+.page--contacts .img-plate{ right:calc(-35.7 * var(--ps)); top:calc(286.6 * var(--py)); width:calc(551.9 * var(--ps)); }
+
+/* ===== Телефоны и узкие окна: обычная вёрстка с прокруткой ===== */
+@media (max-width: 800px), (max-aspect-ratio: 1/1){
+  :root{ --vx:1px; --hy:1px; --hs:1px; }
+  body{overflow:auto}
+  .page{ --py:1px; --ps:1px; --pm:1px; height:auto; min-height:100vh; padding:24px 16px 48px; display:flex; flex-direction:column; align-items:center; text-align:center }
+  .logo,.nav,.abs{position:static !important;transform:none !important}
+  .logo{width:110px;align-self:flex-start}
+  .nav{align-self:stretch;display:flex;flex-wrap:wrap;gap:12px 20px;justify-content:flex-start;height:auto;font-size:14px;letter-spacing:.12em;margin-top:16px}
+  .nav a{position:relative;left:auto !important}
+  .nav a::after{bottom:-4px}
+  .h-display{white-space:normal;margin:36px 0 16px}
+  .copy p,.tagline,.grant,.subtitle,.person{white-space:normal !important}
+  .copy br,.tagline br,.grant br{display:none}
+  .copy{font-size:15px !important;line-height:23px !important;margin:16px 0}
+  .copy p + p{margin-top:16px !important}
+  .page--home::before{width:100%;height:100%;left:0;top:0;background-size:auto 55vh;background-position:center 60%}
+  .page--home .nav{margin-bottom:0}
+  .page--home .brand-cat{width:90px;margin-top:40px}
+  .page--home .brand-name{width:200px;margin-top:12px}
+  .page--home .tagline{font-size:15px;line-height:1.4;margin:16px 0 auto}
+  .page--home .grant{margin-top:40px;font-size:11px;line-height:1.5;background:rgba(0,0,0,.55);padding:12px;border-radius:4px}
+  .page--about::before{width:100%;height:100%;left:0;top:0 !important;background-size:cover}
+  .page--about .title{font-size:clamp(44px,13vw,72px)}
+  .page--products .title,.page--contacts .title{font-size:clamp(36px,10vw,60px)}
+  .page--contacts .subtitle{font-size:14px}
+  .page--contacts .person{font-size:18px;line-height:28px;margin:24px 0 16px}
+  .img-plate,.img-stack{width:min(300px,80vw) !important;margin:16px auto}
+}
